@@ -11,45 +11,40 @@ const AdminContextProvider = (props) => {
     
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
+    const [dashData, setDashData] = useState(false);
+
     const getAllDoctors = async () => {
-        try {
-            const { data } = await axios.post(backendUrl + '/api/admin/all-doctors', {}, { headers: { aToken } });
-            if (data.success) {
-                setDoctors(data.doctors);
-                console.log(data.doctors);
-            } else {
-                toast.error(data.message);
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
+        // BYPASS BACKEND: Mock Data
+        setDoctors([
+            { _id: '1', name: 'Dr. Richard James', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Richard', email: 'doc1@test.com', speciality: 'General physician', degree: 'MBBS', experience: '4 Years', fees: 50, address: {line1: '123 Fake St', line2: 'City'}, available: true, date: Date.now() },
+            { _id: '2', name: 'Dr. Emily Larson', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emily', email: 'doc2@test.com', speciality: 'Gynecologist', degree: 'MD', experience: '6 Years', fees: 80, address: {line1: '456 Dummy Rd', line2: 'Town'}, available: false, date: Date.now() }
+        ]);
     }
 
     const getAllAppointments = async () => {
-        try {
-            const { data } = await axios.get(backendUrl + '/api/admin/appointments', { headers: { aToken } })
-            if (data.success) {
-                setAppointments(data.appointments.reverse())
-            } else {
-                toast.error(data.message)
-            }
-        } catch (error) {
-            toast.error(error.message)
-        }
+        // BYPASS BACKEND: Mock Data
+        setAppointments([
+            { _id: '1', docData: {name: 'Dr. Richard James', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Richard', fees: 50}, userData: {name: 'John Doe', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John', dob: '1990-01-01'}, slotDate: '20_10_2026', slotTime: '10:00 AM', amount: 50, cancelled: false, isCompleted: false, payment: true },
+            { _id: '2', docData: {name: 'Dr. Emily Larson', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emily', fees: 80}, userData: {name: 'Jane Smith', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane', dob: '1995-05-15'}, slotDate: '21_10_2026', slotTime: '02:30 PM', amount: 80, cancelled: true, isCompleted: false, payment: false }
+        ]);
     }
 
     const cancelAppointment = async (appointmentId) => {
-        try {
-            const { data } = await axios.post(backendUrl + '/api/admin/cancel-appointment', { appointmentId }, { headers: { aToken } })
-            if (data.success) {
-                toast.success(data.message)
-                getAllAppointments()
-            } else {
-                toast.error(data.message)
-            }
-        } catch (error) {
-            toast.error(error.message)
-        }
+        // BYPASS BACKEND: Mock Data
+        toast.success("Dummy Appointment Cancelled")
+        getAllAppointments()
+    }
+
+    const getDashData = async () => {
+        // BYPASS BACKEND: Mock Data
+        setDashData({
+            doctors: 14,
+            appointments: 120,
+            patients: 80,
+            latestAppointments: [
+               { _id: '1', docData: {name: 'Dr. Richard James', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Richard', fees: 50}, userData: {name: 'John Doe', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John', dob: '1990-01-01'}, slotDate: '20_10_2026', slotTime: '10:00 AM', amount: 50, cancelled: false, isCompleted: false, payment: true }
+            ]
+        });
     }
 
     const value = {
@@ -59,7 +54,8 @@ const AdminContextProvider = (props) => {
         getAllDoctors,
         appointments, setAppointments,
         getAllAppointments,
-        cancelAppointment
+        cancelAppointment,
+        dashData, getDashData
     };
 
     return (
