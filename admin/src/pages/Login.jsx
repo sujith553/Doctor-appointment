@@ -17,12 +17,13 @@ const Login = () => {
 
     try {
       if (state === 'Admin') {
-        const { data } = await axios.post(backendUrl + '/api/admin/login', { email, password })
-        if (data.success) {
-          localStorage.setItem('aToken', data.token)
-          setAToken(data.token)
+        // BYPASS BACKEND: Hardcoded dummy login
+        if (email === 'admin@prescripto.com' && password === 'admin123') {
+          localStorage.setItem('aToken', 'dummy_admin_token')
+          setAToken('dummy_admin_token')
+          toast.success("Logged in with Dummy Admin Token (Backend Bypassed)")
         } else {
-          toast.error(data.message)
+          toast.error("Invalid dummy credentials (try admin@prescripto.com / admin123)")
         }
       } else {
         const { data } = await axios.post(backendUrl + '/api/doctor/login', { email, password })
