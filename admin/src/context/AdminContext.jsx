@@ -6,7 +6,12 @@ export const AdminContext = createContext();
 
 const AdminContextProvider = (props) => {
     const [aToken, setAToken] = useState(localStorage.getItem('aToken') ? localStorage.getItem('aToken') : '');
-    const [doctors, setDoctors] = useState([]);
+    const initialDoctors = [
+        { _id: '1', name: 'Dr. Richard James', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Richard', email: 'doc1@test.com', speciality: 'General physician', degree: 'MBBS', experience: '4 Years', fees: 50, address: {line1: '123 Fake St', line2: 'City'}, available: true, date: Date.now() },
+        { _id: '2', name: 'Dr. Emily Larson', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emily', email: 'doc2@test.com', speciality: 'Gynecologist', degree: 'MD', experience: '6 Years', fees: 80, address: {line1: '456 Dummy Rd', line2: 'Town'}, available: false, date: Date.now() }
+    ];
+
+    const [doctors, setDoctors] = useState(initialDoctors);
     const [appointments, setAppointments] = useState([]);
     
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -14,11 +19,7 @@ const AdminContextProvider = (props) => {
     const [dashData, setDashData] = useState(false);
 
     const getAllDoctors = async () => {
-        // BYPASS BACKEND: Mock Data
-        setDoctors([
-            { _id: '1', name: 'Dr. Richard James', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Richard', email: 'doc1@test.com', speciality: 'General physician', degree: 'MBBS', experience: '4 Years', fees: 50, address: {line1: '123 Fake St', line2: 'City'}, available: true, date: Date.now() },
-            { _id: '2', name: 'Dr. Emily Larson', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emily', email: 'doc2@test.com', speciality: 'Gynecologist', degree: 'MD', experience: '6 Years', fees: 80, address: {line1: '456 Dummy Rd', line2: 'Town'}, available: false, date: Date.now() }
-        ]);
+        // BYPASS BACKEND: State already holds doctors. Do nothing.
     }
 
     const getAllAppointments = async () => {
@@ -50,7 +51,7 @@ const AdminContextProvider = (props) => {
     const value = {
         aToken, setAToken,
         backendUrl,
-        doctors,
+        doctors, setDoctors,
         getAllDoctors,
         appointments, setAppointments,
         getAllAppointments,

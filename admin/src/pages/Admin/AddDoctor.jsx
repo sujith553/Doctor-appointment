@@ -18,7 +18,7 @@ const AddDoctor = () => {
     const [address1, setAddress1] = useState('')
     const [address2, setAddress2] = useState('')
 
-    const { backendUrl, aToken } = useContext(AdminContext)
+    const { backendUrl, aToken, setDoctors } = useContext(AdminContext)
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
@@ -28,39 +28,35 @@ const AddDoctor = () => {
                 return toast.error('Image Not Selected')
             }
 
-            const formData = new FormData()
-            formData.append('image', docImg)
-            formData.append('name', name)
-            formData.append('email', email)
-            formData.append('password', password)
-            formData.append('experience', experience)
-            formData.append('fees', Number(fees))
-            formData.append('about', about)
-            formData.append('speciality', speciality)
-            formData.append('degree', degree)
-            formData.append('address', JSON.stringify({ line1: address1, line2: address2 }))
-
-            // console log formdata
-            formData.forEach((value, key) => {
-                console.log(`${key} : ${value}`);
-            })
-
-            const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData, { headers: { aToken } })
-
-            if (data.success) {
-                toast.success(data.message)
-                setDocImg(false)
-                setName('')
-                setPassword('')
-                setEmail('')
-                setAddress1('')
-                setAddress2('')
-                setDegree('')
-                setAbout('')
-                setFees('')
-            } else {
-                toast.error(data.message)
+            // BYPASS BACKEND: Mock Data appending
+            const newDoctor = {
+                _id: Date.now().toString(),
+                name,
+                email,
+                image: docImg ? URL.createObjectURL(docImg) : assets.upload_area,
+                speciality,
+                degree,
+                experience,
+                about,
+                fees: Number(fees),
+                address: { line1: address1, line2: address2 },
+                available: true,
+                date: Date.now()
             }
+
+            setDoctors(prev => [newDoctor, ...prev])
+            toast.success("Dummy Doctor Added")
+
+            setDocImg(false)
+            setName('')
+            setPassword('')
+            setEmail('')
+            setAddress1('')
+            setAddress2('')
+            setDegree('')
+            setAbout('')
+            setFees('')
+            
         } catch (error) {
             toast.error(error.message)
             console.log(error)
