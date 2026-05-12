@@ -18,7 +18,7 @@ const Login = () => {
     try {
       if (state === 'Admin') {
         // BYPASS BACKEND: Hardcoded dummy login
-        if (email === 'admin@prescripto.com' && password === 'admin123') {
+        if (email === 'sujithp012005@gmail.com' && password === 'sujith') {
           localStorage.setItem('aToken', 'dummy_admin_token')
           setAToken('dummy_admin_token')
           toast.success("Logged in with Dummy Admin Token (Backend Bypassed)")
@@ -52,7 +52,7 @@ const Login = () => {
           <input onChange={(e) => setPassword(e.target.value)} value={password} className='border border-[#DADADA] rounded w-full p-2 mt-1 outline-none focus:border-primary transition-colors' type="password" required />
         </div>
         <button className='bg-primary text-white w-full py-2 rounded-md text-base hover:opacity-90 transition-opacity'>Login</button>
-        
+
         {state === 'Admin'
           ? <p>Doctor Login? <span className='text-primary underline cursor-pointer' onClick={() => setState('Doctor')}>Click here</span></p>
           : <p>Admin Login? <span className='text-primary underline cursor-pointer' onClick={() => setState('Admin')}>Click here</span></p>
