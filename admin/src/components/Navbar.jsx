@@ -24,7 +24,12 @@ const Navbar = () => {
                 <img className='w-36 sm:w-40 cursor-pointer' src={assets.admin_logo} alt="" />
                 <p className='border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600'>{aToken ? 'Admin' : 'Doctor'}</p>
             </div>
-            <button onClick={logout} className='bg-primary text-white text-sm px-10 py-2 rounded-full hover:bg-blue-700 transition-colors'>Logout</button>
+            <div className='flex items-center gap-4'>
+                <button onClick={() => window.open('http://localhost:5174', '_blank')} className='border text-gray-600 px-5 py-2 rounded-full hover:bg-gray-50 transition-colors text-sm'>
+                    Patient Portal (Home)
+                </button>
+                <button onClick={logout} className='bg-primary text-white text-sm px-10 py-2 rounded-full hover:bg-blue-700 transition-colors'>Logout</button>
+            </div>
         </div>
     )
 }
