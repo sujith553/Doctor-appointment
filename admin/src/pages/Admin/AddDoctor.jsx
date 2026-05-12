@@ -45,7 +45,7 @@ const AddDoctor = () => {
             }
 
             setDoctors(prev => [newDoctor, ...prev])
-            toast.success("Dummy Doctor Added")
+            toast.success("Doctor Added")
 
             setDocImg(false)
             setName('')
@@ -56,7 +56,7 @@ const AddDoctor = () => {
             setDegree('')
             setAbout('')
             setFees('')
-            
+
         } catch (error) {
             toast.error(error.message)
             console.log(error)
